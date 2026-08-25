@@ -1,0 +1,46 @@
+{
+  "name": "Kochzettel",
+  "identifier": "de.kochzettel.source",
+  "sourceURL": "https://raw.githubusercontent.com/redshoxx/kochzettel/main/sidestore/apps.json",
+  "subtitle": "Wochenplan, Rezepte, Einkaufsliste und Notizen",
+  "description": "Kochzettel verbindet Wochenessenplan, Rezepte aus dem Internet, eine geteilte Einkaufsliste und Notizen. Updates kommen automatisch über GitHub Releases in SideStore.",
+  "tintColor": "7D9A72",
+  "iconURL": "https://avatars.githubusercontent.com/u/48377562?v=4",
+  "website": "https://github.com/redshoxx/kochzettel",
+  "apps": [
+    {
+      "name": "Kochzettel",
+      "bundleIdentifier": "de.kochzettel.app",
+      "developerName": "redshoxx",
+      "subtitle": "Planen, einkaufen, kochen",
+      "version": "1.0.0",
+      "versionDate": "2026-08-25",
+      "localizedDescription": "Wochenplan, Rezeptimport, smarte Einkaufsliste und Notizen in einer App. Installation über SideStore.",
+      "iconURL": "https://avatars.githubusercontent.com/u/48377562?v=4",
+      "tintColor": "7D9A72",
+      "category": "utilities",
+      "screenshotURLs": [],
+      "versions": [
+        {
+          "version": "1.0.0",
+          "date": "2026-08-25",
+          "localizedDescription": "Erste SideStore-Version. IPA als GitHub-Release hochladen, dann aktualisiert die Action die Quelle.",
+          "downloadURL": "https://github.com/redshoxx/kochzettel/releases/download/v1.0.0/Kochzettel.ipa",
+          "size": 1,
+          "minOSVersion": "15.0"
+        }
+      ]
+    }
+  ],
+  "news": [
+    {
+      "title": "Quelle eingerichtet",
+      "identifier": "kochzettel-source-1",
+      "caption": "GitHub-Releases aktualisieren SideStore automatisch.",
+      "date": "2026-08-25",
+      "tintColor": "7D9A72",
+      "notify": true,
+      "appID": "de.kochzettel.app"
+    }
+  ]
+}
