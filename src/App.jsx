@@ -7,6 +7,7 @@ import {
   initialNotes,
   CATEGORY_META,
   ITEM_EMOJI,
+  asset,
 } from "./data";
 
 const LS = "kochzettel-v1";
@@ -97,7 +98,6 @@ export default function App() {
       if (!slot?.recipeId) return;
       const rec = recipes.find((r) => r.id === slot.recipeId);
       rec?.ingredients.forEach((ing) => {
-        if (ing.have) return;
         const key = ing.name.toLowerCase();
         if (!map.has(key)) {
           const id = "r-" + ing.id;
@@ -107,8 +107,8 @@ export default function App() {
             amount: ing.amount || "",
             unit: ing.amount || "",
             category: ing.category,
-            checked: !!checked[id],
-            note: "",
+            checked: !!checked[id] || ing.have,
+            note: ing.have ? "schon da" : "",
             fromRecipe: true,
           });
         }
@@ -147,7 +147,7 @@ export default function App() {
     );
   }
 
-  function toggleExtra(id) {
+  function toggleShop(id) {
     setChecked((c) => ({ ...c, [id]: !c[id] }));
     setExtras((xs) => xs.map((x) => (x.id === id ? { ...x, checked: !x.checked } : x)));
   }
@@ -225,19 +225,14 @@ export default function App() {
   return (
     <div className="shell">
       <div className="phone">
-        <div className="status">
-          <span>9:41</span>
-          <span className="status-right">●●● LTE 🔋</span>
-        </div>
-
         {view === "main" && tab === "plan" && (
           <div className="screen">
             <div className="top-row">
               <div className="logo">Kochzettel</div>
               <div className="household">
                 <div className="avatars">
-                  <img src="/img/anna.jpg" alt="Anna" />
-                  <img src="/img/max.jpg" alt="Max" />
+                  <img src={asset("img/anna.jpg")} alt="Anna" />
+                  <img src={asset("img/max.jpg")} alt="Max" />
                 </div>
                 Anna & Max
               </div>
@@ -250,32 +245,49 @@ export default function App() {
                 </button>
               ))}
             </div>
-            <div className="month-label">August</div>
-            {DAYS.filter((d) => plan[d.key]?.recipeId).map((d) => {
+            <div className="month-label">August · ganze Woche</div>
+            {DAYS.map((d) => {
               const slot = plan[d.key];
-              const rec = recipes.find((r) => r.id === slot.recipeId);
-              if (!rec) return null;
+              const rec = slot?.recipeId ? recipes.find((r) => r.id === slot.recipeId) : null;
+              if (!rec) {
+                return (
+                  <button
+                    className="meal-card empty"
+                    key={d.key}
+                    onClick={() => {
+                      setDay(d.key);
+                      setPicker(true);
+                    }}
+                  >
+                    <div>
+                      <div className="dot-row">
+                        <span className="dot off" /> {d.label}
+                      </div>
+                      <h2 className="meal-title muted">Frei</h2>
+                      <div className="meta">Gericht hinzufügen</div>
+                    </div>
+                    <span className="abend">+</span>
+                  </button>
+                );
+              }
               return (
-                <article className="meal-card" key={d.key} onClick={() => openRecipe(rec.id)}>
-                  <div>
+                <article className="meal-card" key={d.key}>
+                  <div className="meal-body" onClick={() => openRecipe(rec.id)}>
                     <div className="dot-row">
                       <span className="dot" /> {d.label}
                     </div>
                     <h2 className="meal-title">{rec.title}</h2>
                     <div className="meta">
-                      <span>⏱ {rec.time} Min</span>
-                      <span>👥 {rec.servings} Personen</span>
+                      <span>{rec.time} Min</span>
+                      <span>{rec.servings} Personen</span>
                     </div>
+                    {slot.dayNote && <div className="chip-note"> {slot.dayNote}</div>}
                   </div>
-                  <img className="meal-photo" src={rec.image} alt="" />
-                  <div className="abend">{slot.meal} ›</div>
-                  {slot.dayNote && <div className="chip-note">🛍 {slot.dayNote}</div>}
+                  <img className="meal-photo" src={rec.image} alt="" onClick={() => openRecipe(rec.id)} />
+                  <div className="abend">{slot.meal}</div>
                 </article>
               );
             })}
-            {!Object.values(plan).some((p) => p?.recipeId) && (
-              <div className="meal-card empty">Noch nichts geplant – + Gericht tippen</div>
-            )}
           </div>
         )}
 
@@ -315,7 +327,7 @@ export default function App() {
                 <div className="cat-list">
                   {items.map((it) => (
                     <div className={"item" + (it.checked ? " done" : "")} key={it.id}>
-                      <button className={"check" + (it.checked ? " on" : "")} onClick={() => toggleExtra(it.id)} />
+                      <button className={"check" + (it.checked ? " on" : "")} onClick={() => toggleShop(it.id)} />
                       <div className="ie">{ITEM_EMOJI[it.name] || "🛒"}</div>
                       <div>
                         <div className="name">{it.amount ? it.amount + " " : ""}{it.name}</div>
@@ -478,7 +490,7 @@ export default function App() {
             {imported && (
               <>
                 <div className="preview">
-                  <img src="/img/pasta-feta.jpg" alt="" />
+                  <img src={asset("img/pasta-feta.jpg")} alt="" />
                   <div>
                     <b>Pasta mit Spinat und Feta</b>
                     <div className="meta"><span>⏱ 8 Zutaten erkannt</span></div>

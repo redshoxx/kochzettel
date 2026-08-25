@@ -1,11 +1,13 @@
+export const asset = (p) => `${import.meta.env.BASE_URL}${String(p).replace(/^\//, "")}`;
+
 export const DAYS = [
-  { key: "mon", short: "Mon", label: "Montag", date: 24 },
-  { key: "tue", short: "Tue", label: "Dienstag", date: 25 },
-  { key: "wed", short: "Wed", label: "Mittwoch", date: 26 },
-  { key: "thu", short: "Thu", label: "Donnerstag", date: 27 },
-  { key: "fri", short: "Fri", label: "Freitag", date: 28 },
-  { key: "sat", short: "Sat", label: "Samstag", date: 29 },
-  { key: "sun", short: "Sun", label: "Sonntag", date: 30 },
+  { key: "mon", short: "Mo", label: "Montag", date: 24 },
+  { key: "tue", short: "Di", label: "Dienstag", date: 25 },
+  { key: "wed", short: "Mi", label: "Mittwoch", date: 26 },
+  { key: "thu", short: "Do", label: "Donnerstag", date: 27 },
+  { key: "fri", short: "Fr", label: "Freitag", date: 28 },
+  { key: "sat", short: "Sa", label: "Samstag", date: 29 },
+  { key: "sun", short: "So", label: "Sonntag", date: 30 },
 ];
 
 export const initialRecipes = [
@@ -15,7 +17,7 @@ export const initialRecipes = [
     time: 25,
     servings: 2,
     tags: ["Schnell", "Meal-Prep"],
-    image: "/img/curry.jpg",
+    image: asset("img/curry.jpg"),
     source: "chefkoch.de",
     note: "Nächstes Mal weniger Chili, Max fand’s zu scharf.",
     steps: [
@@ -45,7 +47,7 @@ export const initialRecipes = [
     time: 25,
     servings: 2,
     tags: ["Schnell"],
-    image: "/img/pasta.jpg",
+    image: asset("img/pasta.jpg"),
     source: "kitchenstories.com",
     note: "Extra Zitrone, nächstes Mal.",
     steps: [
@@ -68,7 +70,7 @@ export const initialRecipes = [
     time: 30,
     servings: 4,
     tags: ["Gäste"],
-    image: "/img/pizza.jpg",
+    image: asset("img/pizza.jpg"),
     source: "eigenes Rezept",
     note: "",
     steps: [
@@ -90,7 +92,7 @@ export const initialRecipes = [
     time: 20,
     servings: 2,
     tags: ["Schnell"],
-    image: "/img/pasta-feta.jpg",
+    image: asset("img/pasta-feta.jpg"),
     source: "chefkoch.de",
     note: "",
     steps: [
@@ -133,7 +135,7 @@ export const initialNotes = [
     type: "reste",
     title: "1/2 Dose Kichererbsen",
     text: "bis Freitag",
-    image: "/img/chickpeas.jpg",
+    image: asset("img/chickpeas.jpg"),
     action: "Rezept vorschlagen",
   },
   {
