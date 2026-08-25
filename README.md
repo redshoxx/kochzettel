@@ -1,17 +1,20 @@
-# Kochzettel
+# Kochzettel v1.0.0
 
-Wochenplan, Rezepte, Einkaufsliste und Notizen.
+Wochenplan, Rezepte, Einkaufsliste, Notizen.
 
-## SideStore (iPhone)
+## Release
 
-Quelle:
+Anleitung: [RELEASE.md](RELEASE.md)
+
+## SideStore
 
 https://raw.githubusercontent.com/redshoxx/kochzettel/main/sidestore/apps.json
 
-Hinzufügen:
-
-sidestore://source?url=https://raw.githubusercontent.com/redshoxx/kochzettel/main/sidestore/apps.json
-
 Details: [SIDESTORE.md](SIDESTORE.md)
 
-Updates: GitHub-Release mit `Kochzettel.ipa` aktualisiert die SideStore-Quelle automatisch.
+## Web
+
+```bash
+npm install
+npm run dev
+```

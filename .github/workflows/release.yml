@@ -1,0 +1,44 @@
+name: Release erstellen
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Versionstag
+        required: true
+        default: v1.0.0
+      notes:
+        description: Release-Text
+        required: false
+        default: Erstes oeffentliches Release von Kochzettel.
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Web-App bauen
+        run: |
+          TAG="${{ inputs.tag }}"
+          npm install
+          npm run build
+          cd dist && zip -r "../Kochzettel-web-${TAG}.zip" .
+      - name: GitHub Release anlegen
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ inputs.tag }}"
+          NOTES="${{ inputs.notes }}"
+          git tag -f "$TAG"
+          git push -f origin "$TAG"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "Kochzettel-web-${TAG}.zip" --clobber
+          else
+            gh release create "$TAG" "Kochzettel-web-${TAG}.zip" --title "Kochzettel ${TAG}" --notes "$NOTES"
+          fi
