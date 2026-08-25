@@ -18,3 +18,10 @@ Details: [SIDESTORE.md](SIDESTORE.md)
 npm install
 npm run dev
 ```
+
+
+## Web (GitHub Pages)
+
+Nach einmaligem Einschalten unter Settings → Pages → Source **GitHub Actions**:
+
+https://redshoxx.github.io/kochzettel/

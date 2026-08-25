@@ -17,14 +17,17 @@ def main():
     if not tag or tag == "main":
         releases = gh_json(["release", "list", "--limit", "1", "--json", "tagName"])
         if not releases:
-            sys.exit("Kein Release gefunden")
+            print("Noch kein GitHub-Release. Quelle bleibt unverändert.")
+            return
         tag = releases[0]["tagName"]
 
     version = tag[1:] if tag.startswith("v") else tag
     data = gh_json(["api", f"repos/{repo}/releases/tags/{tag}"])
     ipa = next((a for a in data.get("assets", []) if a.get("name", "").lower().endswith(".ipa")), None)
     if not ipa:
-        sys.exit("Keine .ipa im Release. Lade Kochzettel.ipa als Asset hoch.")
+        print(f"Release {tag} hat keine .ipa. Quelle bleibt unverändert.")
+        print("Lade Kochzettel.ipa im Release hoch, dann diesen Workflow erneut starten.")
+        return
 
     notes = data.get("body") or f"Version {version}"
     date = (data.get("published_at") or "")[:10]
